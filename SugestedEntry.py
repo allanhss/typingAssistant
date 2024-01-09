@@ -13,7 +13,7 @@ class SugestedEntry:
         self.entry.bind("<<ListBoxSelect>>", self.selectActive)
         self.entry.bind("<KeyRelease>", self.checkEntry)
 
-        self.functionsListed = Listbox(
+        self.optionsList = Listbox(
             root,
             height=3,
             yscrollcommand="True",
@@ -21,10 +21,10 @@ class SugestedEntry:
             background="Grey",
             fg="White",
         )
-        self.functionsListed.pack(pady=5)
-        self.functionsListed.bind("<<ListboxSelect>>", self.on_select)
-        self.functionsListed.yview()
-        self.update_functionsListed(self.list)
+        self.optionsList.pack(pady=5)
+        self.optionsList.bind("<<ListboxSelect>>", self.on_select)
+        self.optionsList.yview()
+        self.update_optionsList(self.list)
         self.selected_value = None
 
     def on_select(self, event):
@@ -34,11 +34,11 @@ class SugestedEntry:
         self.entry.delete(0, END)
         self.entry.insert(END, picked)
 
-    def update_functionsListed(self, data):
-        self.functionsListed.delete(0, END)
+    def update_optionsList(self, data):
+        self.optionsList.delete(0, END)
         for item in data:
-            self.functionsListed.insert(END, item)
-        self.functionsListed.configure(height=len(data) if len(data) < 3 else 3)
+            self.optionsList.insert(END, item)
+        self.optionsList.configure(height=len(data) if len(data) < 3 else 3)
 
     def checkEntry(self, event):
         input = self.entry.get()
@@ -49,11 +49,11 @@ class SugestedEntry:
             for item in self.list:
                 if input.lower() in item.lower():
                     data.append(item)
-        self.update_functionsListed(data)
+        self.update_optionsList(data)
 
     def listNavigate(self, event):
         key_pressed = event.keysym
-        current_selection = self.functionsListed.curselection()
+        current_selection = self.optionsList.curselection()
         if current_selection:
             if key_pressed == "Up" and current_selection[0] > 0:
                 next_selection = current_selection[0] - 1
@@ -61,27 +61,27 @@ class SugestedEntry:
                 next_selection = current_selection[0] + 1
         else:
             next_selection = 0
-        self.functionsListed.selection_clear(0, END)
-        self.functionsListed.selection_set(next_selection)
-        self.functionsListed.see(next_selection)
+        self.optionsList.selection_clear(0, END)
+        self.optionsList.selection_set(next_selection)
+        self.optionsList.see(next_selection)
 
     def selectActive(self, event):
-        if self.functionsListed.curselection():
+        if self.optionsList.curselection():
             self.entry.delete(0, END)
-            self.entry.insert(0, self.functionsListed.get(ACTIVE))
+            self.entry.insert(0, self.optionsList.get(ACTIVE))
 
     def selectSelection(self, event):
-        current_selection = self.functionsListed.curselection()
+        current_selection = self.optionsList.curselection()
         if current_selection:
             self.entry.delete(0, END)
-            selected = self.functionsListed.get(current_selection)
+            selected = self.optionsList.get(current_selection)
             self.entry.insert(0, selected)
 
     def getSelectedValue(self):
-        current_selection = self.functionsListed.curselection()
+        current_selection = self.optionsList.curselection()
         if current_selection:
             self.entry.delete(0, END)
-            selected = self.functionsListed.get(current_selection)
+            selected = self.optionsList.get(current_selection)
             self.entry.insert(0, selected)
         return self.entry.get()
 
