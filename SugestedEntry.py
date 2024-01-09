@@ -22,17 +22,9 @@ class SugestedEntry:
             fg="White",
         )
         self.optionsList.pack(pady=5)
-        self.optionsList.bind("<<ListboxSelect>>", self.on_select)
         self.optionsList.yview()
         self.update_optionsList(self.list)
         self.selected_value = None
-
-    def on_select(self, event):
-        widget = event.widget
-        selection = widget.curselection()
-        picked = widget.get(selection)
-        self.entry.delete(0, END)
-        self.entry.insert(END, picked)
 
     def update_optionsList(self, data):
         self.optionsList.delete(0, END)
