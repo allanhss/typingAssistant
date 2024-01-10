@@ -10,7 +10,7 @@ class SugestedEntry:
         self.entry.bind("<KeyRelease-Up>", self.listNavigate)
         self.entry.bind("<KeyRelease-Down>", self.listNavigate)
         self.entry.bind("<Right>", self.selectSelection)
-        self.entry.bind("<<ListBoxSelect>>", self.selectActive)
+        self.entry.bind("<Tab>", self.selectSelection)
         self.entry.bind("<KeyRelease>", self.checkEntry)
 
         self.optionsList = Listbox(
@@ -57,23 +57,18 @@ class SugestedEntry:
         self.optionsList.selection_set(next_selection)
         self.optionsList.see(next_selection)
 
-    def selectActive(self, event):
-        if self.optionsList.curselection():
-            self.entry.delete(0, END)
-            self.entry.insert(0, self.optionsList.get(ACTIVE))
-
     def selectSelection(self, event):
         current_selection = self.optionsList.curselection()
         if current_selection:
-            self.entry.delete(0, END)
             selected = self.optionsList.get(current_selection)
+            self.entry.delete(0, END)
             self.entry.insert(0, selected)
 
     def getSelectedValue(self):
         current_selection = self.optionsList.curselection()
         if current_selection:
-            self.entry.delete(0, END)
             selected = self.optionsList.get(current_selection)
+            self.entry.delete(0, END)
             self.entry.insert(0, selected)
         return self.entry.get()
 
