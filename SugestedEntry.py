@@ -63,6 +63,7 @@ class SugestedEntry:
             selected = self.optionsList.get(current_selection)
             self.entry.delete(0, END)
             self.entry.insert(0, selected)
+            return "break"
 
     def getSelectedValue(self):
         current_selection = self.optionsList.curselection()
