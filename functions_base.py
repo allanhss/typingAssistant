@@ -1,7 +1,7 @@
 import inspect
 
 
-class Function:
+class FunctionBase:
     @classmethod
     def getFunctionsDict(cls):
         cls_name = cls.__name__
@@ -14,7 +14,7 @@ class Function:
         return functions_dict
 
 
-class Text(Function):
+class Text(FunctionBase):
     @staticmethod
     def lower(text):
         return text.lower()
@@ -28,7 +28,7 @@ class Text(Function):
         return "".join(word.capitalize() for word in text.split(" "))
 
 
-class To(Function):
+class To(FunctionBase):
     @staticmethod
     def whatsAppContact(number):
         print(f"WppContact -> {number}")

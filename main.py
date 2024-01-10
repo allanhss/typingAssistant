@@ -1,7 +1,7 @@
 from tkinter import *
 import pyautogui
-from SugestedEntry import SugestedEntry
-import Functions
+from sugested_entry import SugestedEntry
+import functions_base
 
 
 def rootOnReturn(event):
@@ -32,7 +32,7 @@ if __name__ == "__main__":
 
     ##
     functionsDict = {}
-    for clsName in Functions.classes:
+    for clsName in functions_base.classes:
         functionsDict.update(clsName.getFunctionsDict())
     functionsList = functionsDict.keys()
     ##
