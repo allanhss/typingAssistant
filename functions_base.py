@@ -1,4 +1,5 @@
 import inspect
+import webbrowser
 
 
 class FunctionBase:
@@ -31,7 +32,55 @@ class Text(FunctionBase):
 class To(FunctionBase):
     @staticmethod
     def whatsAppContact(number):
-        print(f"WppContact -> {number}")
+        splited = [
+            "".join(filter(str.isdigit, i))
+            for i in number.replace("-", "").replace(")", " ").split(" ")
+            if i
+        ]
+        print(splited)
+        if len(splited) == 2:
+            if len(splited[0]) not in [2, 3]:
+                out = False
+            elif len(splited[1]) not in [8, 9]:
+                out = False
+            else:
+                splited[0] = splited[0].zfill(3)
+                splited[1] = splited[1].zfill(9)
+                out = "+55" + "".join(splited)
+        elif len(splited) == 3:
+            if len(splited[0]) > 2:
+                out = False
+            elif len(splited[1]) not in [2, 3]:
+                out = False
+            elif len(splited[2]) not in [8, 9]:
+                out = False
+            else:
+                splited[0] = splited[0].zfill(2)
+                splited[1] = splited[1].zfill(3)
+                splited[2] = splited[2].zfill(9)
+                out = "".join(splited)
+        elif len(splited) == 1:
+            if len(splited[0]) in [10, 11, 12]:
+                out = "+55" + splited[0]
+            elif len(splited[0]) in [12, 13, 14]:
+                out = splited[0]
+        else:
+            out = False
+        if out:
+            webbrowser.open(f"wa.me/{out}")
+        else:
+            return False
 
 
 classes = [obj for name, obj in locals().items() if inspect.isclass(obj)]
+
+if __name__ == "__main__":
+    test = [
+        "(74) 3614-7400",
+        "07436147400",
+        "074 36147400",
+        "74 36-1400",
+        "+55 074 3614-7400",
+        "+55 (074)3614-7400",
+    ]
+    print([To.whatsAppContact(i) for i in test])
