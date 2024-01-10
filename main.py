@@ -1,17 +1,21 @@
 from tkinter import *
 import pyautogui
 from SugestedEntry import SugestedEntry
+from functions import Text
 
 
 def rootOnReturn(event):
     command = entry.getSelectedValue()
     print(f"command -> {command}")
     ## Executa o código ##
-    dataOut = "[]"
+    if clipboard_text != None:
+        dataOut = "[]"
+        dataOut = functionsDict[command](clipboard_text)
+    else:
+        dataOut = functionsDict[command]()
     ## Atualiza o Clipboard ##
     rootSetClipboard(dataOut)
     print(f"dataOut -> {dataOut}")
-    root.destroy()
 
 
 def rootSetClipboard(text):
@@ -26,13 +30,14 @@ if __name__ == "__main__":
     root.geometry(f"+{mouse_x+10}+{mouse_y+10}")
 
     ##
-    functionsList = ["text.lower", "text.UPPER", "text.camelCase", "text.TitleCase"]
+    functionsDict = Text.getFunctionsDict()
+    functionsList = functionsDict.keys()
     ##
     entry = SugestedEntry(root=root, optionsList=functionsList)
     try:
         clipboard_text = root.clipboard_get()  # Pega o valor salvo no clipboard
     except:
-        ...
+        clipboard_text = None
 
     # Root Finish
     root.bind("<Return>", rootOnReturn)
