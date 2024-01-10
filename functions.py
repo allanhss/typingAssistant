@@ -1,7 +1,20 @@
 import inspect
 
 
-class Text:
+class Function:
+    @classmethod
+    def getFunctionsDict(cls):
+        cls_name = cls.__name__
+        functions_dict = {
+            f"{cls_name}.{name}": method
+            for name, method in inspect.getmembers(cls, predicate=inspect.isfunction)
+        }
+        if f"{cls_name}.getFunctionsDict" in functions_dict:
+            del functions_dict[f"{cls_name}.getFunctionsDict"]
+        return functions_dict
+
+
+class Text(Function):
     @staticmethod
     def lower(text):
         return text.lower()
@@ -11,12 +24,14 @@ class Text:
         return text.upper()
 
     @staticmethod
-    def getFunctionsDict():
-        functions_dict = {
-            f"Text.{name}": method
-            for name, method in inspect.getmembers(Text, predicate=inspect.isfunction)
-        }
-        del functions_dict[
-            "Text.getFunctionsDict"
-        ]  # Remove a função getFunctionsDict do dicionário
-        return functions_dict
+    def camelCase(text):
+        return "".join(word.capitalize() for word in text.split(" "))
+
+
+class To(Function):
+    @staticmethod
+    def whatsAppContact(number):
+        print(f"WppContact -> {number}")
+
+
+classes = [obj for name, obj in locals().items() if inspect.isclass(obj)]

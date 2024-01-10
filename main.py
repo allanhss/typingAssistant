@@ -1,7 +1,7 @@
 from tkinter import *
 import pyautogui
 from SugestedEntry import SugestedEntry
-from functions import Text
+import Functions
 
 
 def rootOnReturn(event):
@@ -16,6 +16,7 @@ def rootOnReturn(event):
     ## Atualiza o Clipboard ##
     rootSetClipboard(dataOut)
     print(f"dataOut -> {dataOut}")
+    root.destroy()
 
 
 def rootSetClipboard(text):
@@ -30,7 +31,9 @@ if __name__ == "__main__":
     root.geometry(f"+{mouse_x+10}+{mouse_y+10}")
 
     ##
-    functionsDict = Text.getFunctionsDict()
+    functionsDict = {}
+    for clsName in Functions.classes:
+        functionsDict.update(clsName.getFunctionsDict())
     functionsList = functionsDict.keys()
     ##
     entry = SugestedEntry(root=root, optionsList=functionsList)
