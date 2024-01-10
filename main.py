@@ -1,7 +1,17 @@
 from tkinter import *
 import pyautogui
+import time
 from sugested_entry import SugestedEntry
 import functions_base
+
+
+def rootSetClipboard(text):
+    root.clipboard_clear()
+    root.clipboard_append(text)
+    time.sleep(0.5)
+    root.update()
+    time.sleep(0.5)
+    print("done")
 
 
 def rootOnReturn(event):
@@ -9,19 +19,13 @@ def rootOnReturn(event):
     print(f"command -> {command}")
     ## Executa o código ##
     if clipboard_text != None:
-        dataOut = "[]"
         dataOut = functionsDict[command](clipboard_text)
     else:
         dataOut = functionsDict[command]()
     ## Atualiza o Clipboard ##
-    rootSetClipboard(dataOut)
+    rootSetClipboard(f"{dataOut}")
     print(f"dataOut -> {dataOut}")
     root.destroy()
-
-
-def rootSetClipboard(text):
-    root.clipboard_clear()
-    root.clipboard_append(text)
 
 
 if __name__ == "__main__":
