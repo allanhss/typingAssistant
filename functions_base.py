@@ -72,6 +72,39 @@ class To(FunctionBase):
             return False
 
 
+class Obsidian(FunctionBase):
+    @staticmethod
+    def createGenericVmatrix(size):
+        return (
+            "$$\\begin{vmatrix}\n"
+            + "\\\\\n".join(
+                [
+                    " & ".join([f"a_{{{i+1}{j+1}}}" for j in range(size)])
+                    for i in range(size)
+                ]
+            )
+            + "\n\\end{vmatrix}$$"
+        )
+
+    def createNullVmatrix(size):
+        return (
+            "$$\\begin{vmatrix}\n"
+            + "\\\\\n".join(
+                [" & ".join([f"0" for j in range(size)]) for i in range(size)]
+            )
+            + "\n\\end{vmatrix}$$"
+        )
+
+    def createIdentityVmatrix(size):
+        return (
+            "$$\\begin{vmatrix}\n"
+            + "\\\\\n".join(
+                [" & ".join([f"{int(i==j)}" for j in range(size)]) for i in range(size)]
+            )
+            + "\n\\end{vmatrix}$$"
+        )
+
+
 classes = [obj for name, obj in locals().items() if inspect.isclass(obj)]
 
 if __name__ == "__main__":
@@ -83,4 +116,6 @@ if __name__ == "__main__":
         "+55 074 3614-7400",
         "+55 (074)3614-7400",
     ]
-    print([To.whatsAppContact(i) for i in test])
+    # print([To.whatsAppContact(i) for i in test])
+
+    print(Obsidian.createNullVmatrix(4))
